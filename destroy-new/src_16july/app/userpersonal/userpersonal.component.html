@@ -1,0 +1,117 @@
+<div class="container">
+    <div class="card card-container">
+        <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120"
+            alt="" />
+        <!--             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+-->
+        <p id="profile-name" class="profile-name-card"></p>
+        <h2>Update Your Profile</h2>
+        <form [formGroup]="userPersonalForm" class="form-signin">
+
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder=" YourName" formControlName="name" [(ngModel)]="this.userPersonal.name">
+            </mat-form-field>
+            <mat-error *ngIf="userPersonalForm.controls['name'].hasError('required') && userPersonalForm.controls['name'].touched">
+                <h6>Please enter your name.</h6>
+            </mat-error>
+            <mat-error *ngIf="userPersonalForm.controls['name'].hasError('maxlength')">
+                <h6>Maximum length 30 characters.</h6>
+            </mat-error>
+            <mat-error *ngIf="userPersonalForm.controls['name'].hasError('minlength')">
+                <h6>Minimum length 2 characters.</h6>
+            </mat-error>
+
+
+            <br>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Last Name" formControlName="lastName" [(ngModel)]="this.userPersonal.lastName">
+            </mat-form-field>
+            <mat-error *ngIf="userPersonalForm.controls['lastName'].hasError('required') && userPersonalForm.controls['lastName'].touched">
+                <h6> Please enter your last name.</h6>
+            </mat-error>
+            <mat-error *ngIf="userPersonalForm.controls['lastName'].hasError('maxlength')">
+                <h6>Maximum length 30 characters.</h6>
+            </mat-error>
+            <mat-error *ngIf="userPersonalForm.controls['lastName'].hasError('minlength')">
+                <h6>Minimum length 2 characters.</h6>
+            </mat-error>
+
+
+            <br>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Email" formControlName="email" [(ngModel)]="this.userPersonal.email" (keyup)="disableIsEmailCheck()">
+            </mat-form-field>
+            <mat-error *ngIf="userPersonalForm.controls['email'].hasError('required') && userPersonalForm.controls['email'].touched">
+                <h6>Please enter your email.</h6>
+            </mat-error>
+            <mat-error *ngIf="userPersonalForm.controls['email'].hasError('maxlength')">
+                <h6>Can't exceed 30 characters.</h6>
+            </mat-error>
+            <mat-error *ngIf="isEmailCheck">
+                <h6> Email already exists.</h6>
+            </mat-error>
+            <mat-error *ngIf="userPersonalForm.controls['email'].hasError('email') && userPersonalForm.controls['email'].touched">
+                <h6> Invaild email address.</h6>
+            </mat-error>
+
+
+            <br>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Contact Number" formControlName="contactNumber" [(ngModel)]="this.userPersonal.contactNumber" (keyup)="disableIsContactCheck()">
+            </mat-form-field>
+            <mat-error *ngIf="userPersonalForm.controls['contactNumber'].hasError('required') && userPersonalForm.controls['contactNumber'].touched">
+                <h6>Please enter your contact number.</h6>
+            </mat-error>
+            <mat-error *ngIf="isContactCheck">
+                <h6> Contact already exists.</h6>
+            </mat-error>
+
+            <br>
+            <div *ngIf="passFlag">
+                <a [routerLink]="" (click)="changePassword()">
+                    <h4>Change Password</h4>
+                </a>
+            </div>
+            <div *ngIf="passwordChange">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Old Password " type="password" formControlName="oldPassword" (keyup)="disableIsOldPassword()">
+                </mat-form-field>
+                <mat-error *ngIf="userPersonalForm.controls['oldPassword'].hasError('minlength') && userPersonalForm.controls['oldPassword'].touched">
+                    <h6>Please enter your current password.</h6>
+                </mat-error>
+                <mat-error *ngIf="!isOldPassword">
+                    <h6>Old password did not match.</h6>
+                </mat-error>
+
+
+                <br>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="New Password " type="password" formControlName="password" (keyup)="disableIsConfirm()">
+                    <mat-hint align="end">hint 1qqQQQ</mat-hint>
+                </mat-form-field>
+                <mat-error *ngIf="userPersonalForm.controls['password'].hasError('minlength')">
+                    <h6>Please enter at least 6 char.</h6>
+                </mat-error>
+
+
+                <br>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Confirm Password " type="password" formControlName="confirmPassword" (keyup)="disableIsConfirm()">
+                </mat-form-field>
+                <mat-error *ngIf="!isConfirm">
+                    <h6>Password and Confirm Password did not match.</h6>
+                </mat-error>
+
+            </div>
+
+            <div *ngIf="!passFlag">
+                <button mat-raised-button class="btn btn-lg btn-primary btn-block btn-signin" (click)="C_userPersonal()">Submit</button>
+            </div>
+            <div *ngIf="passFlag">
+                <button style="margin-top: 35px;" mat-raised-button class="btn btn-lg btn-primary btn-block btn-signin" (click)="C_userPersonal()"
+                    [disabled]="userPersonalForm.invalid">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

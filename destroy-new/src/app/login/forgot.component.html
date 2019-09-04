@@ -1,0 +1,60 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    </head>
+    <!-- Navigation -->
+        <header>
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="htttp://www.binarytheme.com">MyMoviePortal </a>
+                    </div>
+                    <!-- Collect the nav links for toggling -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse" style="font-size:20px;" *ngIf="role!=='guest'">
+      
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container -->
+            </nav>
+                  </header>
+            <!--End Navigation -->
+            <div id="home">
+<div class="container">
+    <div class="card card-container">
+        <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120"
+            alt="" />
+        <!--             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+-->
+        <p id="profile-name" class="profile-name-card"></p>
+    <h5>Please give your registered email id..</h5>
+
+    <form [formGroup]="forgotForm" class="form-signin">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Email Id" formControlName="email" (keyup)="disableIsFlag()">
+        </mat-form-field>
+        <mat-error *ngIf="forgotForm.controls['email'].hasError('required') && forgotForm.controls['email'].touched">
+            <h6> Please enter your email id.</h6>
+        </mat-error>
+        <mat-error *ngIf="!isFlag">
+            <h6>email doesnot exist.</h6>
+        </mat-error>
+        <br>
+
+        <button mat-raised-button class="btn btn-lg btn-primary btn-block btn-signin" (click)="C_forgotPassword()" [disabled]="forgotForm.invalid">Submit</button>
+        
+    </form>
+</div>
+</div>
+</div>
+<div class="for-full-back " id="footer">
+    MoviePortal | Piyush Kushwah
+     
+  </div>
+  <!--End footer Section -->

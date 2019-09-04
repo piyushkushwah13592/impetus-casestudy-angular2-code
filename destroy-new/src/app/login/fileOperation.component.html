@@ -1,0 +1,88 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    </head>
+    <!-- Navigation -->
+        <header>
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="htttp://www.binarytheme.com">YOUR LOGO </a>
+                    </div>
+                   <!-- Collect the nav links for toggling -->
+                   <div class="collapse navbar-collapse navbar-ex1-collapse" style="font-size:20px;">
+                    <ul class="nav navbar-nav navbar-right">
+                        
+                        <li><a [routerLink]="" (click)="goBack()">City</a>
+                        </li>
+                        
+                        <li><a [routerLink]="" (click)="goBack()">Theatre</a>
+                        </li>
+    
+                        <li><a [routerLink]="" (click)="goBack()">Movie</a>
+                        </li>
+    
+                        <li><a [routerLink]="" (click)="goBack()">Movie By File</a>
+                        </li>
+                        <li><a [routerLink]="" (click)="goBack()">Download PDF</a>
+                        </li>
+                        <li><a [routerLink]="" (click)="goBack()">CityTheatre Mapping</a>
+                        </li>
+
+                        <li><a [routerLink]="" (click)="logout()">logout</a>
+                        </li>
+                       
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container -->
+            </nav>
+                  </header>
+            <!--End Navigation -->
+        
+    <div id="home"> 
+<div>
+    <a [routerLink]="" (click)="logout()">
+        logout</a>
+</div>
+
+<br>
+<div class="container">
+    <div class="card card-container">
+        <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120"
+            alt="" />
+        <!--             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+    -->
+        <p id="profile-name" class="profile-name-card"></p>
+
+        <div class="form-signin">
+            <mat-radio-group class="example-radio-group" (change)="selectOperation()" [(ngModel)]="yourOperation">
+                <mat-radio-button class="example-radio-button" *ngFor="let fileOperation of fileOperations" [value]="fileOperation.value">
+                    <h4>{{fileOperation.viewValue}}</h4>
+                </mat-radio-button>
+            </mat-radio-group>
+
+
+
+            <h4>
+                <input type="file" (change)="updateFile(file)" accept="image/*" #file>
+            </h4>
+            <button mat-raised-button style="float: right;margin-top: 98px;" class="btn   btn-signin" type="submit" (click)="getFile()">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button mat-raised-button style="margin-top: 60px;" class="btn   btn-signin" type="submit" (click)="goBack()">go back</button>
+        </div>
+    </div>
+</div>
+</div>
+<!--footer Section -->
+<div class="for-full-back " id="footer">
+    MoviePortal | Piyush Kushwah
+     
+</div>
+<!--End footer Section -->

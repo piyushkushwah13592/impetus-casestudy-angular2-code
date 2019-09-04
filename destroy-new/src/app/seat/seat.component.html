@@ -1,0 +1,105 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    </head>
+    <!-- Navigation -->
+        <header>
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="htttp://www.binarytheme.com">MyMoviePortal </a>
+                    </div>
+                    <!-- Collect the nav links for toggling -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse" style="font-size:20px;" *ngIf="role!=='guest'">
+                        <ul class="nav navbar-nav navbar-right">
+                    
+                          <li><a [routerLink]="" (click)="previousPage()"> Home</a>
+                          </li>
+                          <li><a [routerLink]="['/userPersonal', id]">Update your profile</a>
+                            </li>
+                            <li><a [routerLink]="" (click)="getUserHistory()"> See your History</a>
+                            </li>
+        
+                            <li><a [routerLink]="" (click)="cancelTicket()">Cancel Tickets</a>
+                            </li>
+      
+                            <li><a [routerLink]="" (click)="logout()">logout</a>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container -->
+            </nav>
+                  </header>
+            <!--End Navigation -->
+            <div id="home">
+
+<!-- Template for the seat component -->
+<!-- Author: Uzair Ahmed -->
+<div *ngIf="role!=='guest'">
+    <a [routerLink]="" (click)="logout()">
+        logout</a>
+</div>
+<div class="container">
+    <main class="innerContainer">
+        <div class="movie">
+            <h3 class="movieTitle">{{movieTitle}}</h3>
+           <!-- <div class="movieDetails">{{screen}} - {{time}}</div>> -->
+        </div>
+
+        <!-- Showing a static legend bar -->
+        <div class="legend">
+            <span class="glyphicon glyphicon-stop freeSeat" style="color:plum"></span>FREE
+            <span class="glyphicon glyphicon-ban-circle reservedSeat padding-left"></span> TAKEN
+            <span class="glyphicon glyphicon-ok-sign selectedSeat padding-left"></span> SELECTED
+        </div>
+
+        <p class="font14 marginTop5">SCREEN THIS WAY</p>
+        <div class="screen"></div>
+
+        <!-- Generate the seating grid -->
+        <div *ngFor="let row of rows">
+            <span class="seat" *ngFor="let col of cols" (click)="seatClicked(row + col)" [ngSwitch]="getStatus(row + col)">
+                <span *ngSwitchCase="'selected'" class="glyphicon glyphicon-ok-sign selectedSeat"></span>
+                <span *ngSwitchCase="'reserved'" class="glyphicon glyphicon-ban-circle reservedSeat"></span>
+                <span *ngSwitchDefault class="glyphicon glyphicon-stop freeSeat"></span>
+            </span>
+        </div>
+
+        <!-- Structural directive - only visible on selection -->
+        <div *ngIf="selected.length > 0" class="font14 marginTB10">
+            <div class="wordWrap">SEATS RESERVED : {{selected.length}}
+                <span class="count">({{selected}})</span>
+            </div>
+            <div>PRICE : {{ticketPrice}} * {{selected.length}} = {{currency}}.{{ticketPrice*selected.length}} </div>
+            <div>CONVENIENCE FEE : {{currency}}.{{convFee}}</div>
+            <div>TOTAL : {{currency}}.{{ticketPrice * selected.length + convFee}}</div>
+            <div>AFTER DISCOUNT : {{currency}}.{{(ticketPrice * selected.length + convFee) -((ticketPrice *selected.length + convFee)
+                * discount)}}</div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="buttonBar marginTop5">
+            <button (click)="clearSelected()" [disabled]="selected.length === 0 " class="btn btn-default btn-sm">Clear</button>
+            <button (click)="showSelected()" [disabled]="selected.length === 0 || role==='guest'" class="btn btn-success btn-sm">Buy Tickets</button>
+        </div>
+
+    </main>
+
+    <button mat-raised-button class="mat-primary full-width mb-1" (click)="previousPage()">previous</button>
+</div>
+</div>
+<!--footer Section -->
+<div class="for-full-back " id="footer">
+    MoviePortal | Piyush Kushwah
+     
+</div>
+<!--End footer Section -->

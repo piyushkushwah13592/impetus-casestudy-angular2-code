@@ -1,0 +1,132 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    </head>
+    <!-- Navigation -->
+        <header>
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="htttp://www.binarytheme.com">MyMoviePortal </a>
+                    </div>
+                    <!-- Collect the nav links for toggling -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse" style="font-size:20px;" *ngIf="role!=='guest'">
+      
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container -->
+            </nav>
+                  </header>
+            <!--End Navigation -->
+            <div id="home">
+<div class="container">
+    <div class="card card-container">
+        <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120"
+            alt="" />
+        <!--             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+-->
+        <p id="profile-name" class="profile-name-card"></p>
+        <h2>Register Yourself</h2>
+
+        <form [formGroup]="registrationForm" class="form-signin">
+            <div>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="First Name" formControlName="name">
+                </mat-form-field>
+                <mat-error *ngIf="registrationForm.controls['name'].hasError('required') && registrationForm.controls['name'].touched">
+                    <h6>Please enter your name.</h6>
+                </mat-error>
+                <mat-error *ngIf="registrationForm.controls['name'].hasError('maxlength')">
+                    <h6>Maximum length 30 characters</h6>
+                </mat-error>
+                <mat-error *ngIf="registrationForm.controls['name'].hasError('minlength')">
+                    <h6>Minimum length 2 characters</h6>
+                </mat-error>
+            </div>
+
+            <div>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Last Name" formControlName="lastName">
+                </mat-form-field>
+                <mat-error *ngIf="registrationForm.controls['lastName'].hasError('required') && registrationForm.controls['lastName'].touched">
+                    <h6> Please enter your last name.</h6>
+                </mat-error>
+                <mat-error *ngIf="registrationForm.controls['lastName'].hasError( 'maxlength') ">
+                    <h6>Maximum length 30 characters</h6>
+                </mat-error>
+                <mat-error *ngIf="registrationForm.controls['lastName'].hasError( 'minlength') ">
+                    <h6>Minimum length 2 characters</h6>
+                </mat-error>
+            </div>
+
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Email" formControlName="email" (keyup)="disableIsEmailCheck()">
+            </mat-form-field>
+            <mat-error *ngIf="registrationForm.controls['email'].hasError( 'required') && registrationForm.controls['email'].touched"
+                class="col-sm-8">
+                <h6>Please enter your email.</h6>
+            </mat-error>
+            <mat-error *ngIf="registrationForm.controls['email'].hasError( 'maxlength') " class="col-sm-8">
+                <h6>Can't exceed 30 characters.</h6>
+            </mat-error>
+            <mat-error *ngIf="isEmailCheck" class="col-sm-8">
+                <h6> Email already exists.</h6>
+            </mat-error>
+
+            <br>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Contact Number" formControlName="contactNumber" (keyup)="disableIsContactCheck()">
+            </mat-form-field>
+
+            <mat-error *ngIf="registrationForm.controls['contactNumber'].hasError( 'required') && registrationForm.controls['contactNumber'].touched"
+                class="col-sm-8">
+                <h6>Please enter your contact number.</h6>
+            </mat-error>
+            <mat-error *ngIf="registrationForm.controls['contactNumber'].hasError( 'pattern') " class="col-sm-8">
+                <h6>Please give correct number.</h6>
+            </mat-error>
+            <mat-error *ngIf="isContactCheck" class="col-sm-8">
+                <h6> Contact already exists.</h6>
+            </mat-error>
+
+            <br>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Password " type="password" formControlName="password" (keyup)="disableIsConfirm()">
+                <mat-hint align="end">hint 1qqQQQ</mat-hint>
+            </mat-form-field>
+            <mat-error *ngIf="registrationForm.controls['password'].hasError( 'required') && registrationForm.controls['password'].touched">
+                <h6>Please enter your password.</h6>
+            </mat-error>
+            <mat-error *ngIf="registrationForm.controls['password'].hasError( 'minlength') ">
+                <h6>Please enter at least 6 char.</h6>
+            </mat-error>
+            <mat-error *ngIf="registrationForm.controls['password'].hasError( 'pattern') ">
+                <h6>Please give correct pattern for password.</h6>
+            </mat-error>
+
+
+            <br>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Confirm Password " type="password" formControlName="confirmPassword" (keyup)="disableIsConfirm()">
+            </mat-form-field>
+            <mat-error *ngIf="isConfirm ">
+                <h6>Password and Confirm Password did not match.</h6>
+            </mat-error>
+            <br>
+            <button mat-raised-button class="btn   btn-signin" (click)="C_registerUser() " [disabled]="registrationForm.invalid ">Submit</button>
+        </form>
+    </div>
+</div>
+</div>
+<div class="for-full-back " id="footer">
+    MoviePortal | Piyush Kushwah
+     
+  </div>
+  <!--End footer Section -->

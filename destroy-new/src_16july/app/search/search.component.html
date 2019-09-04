@@ -1,0 +1,167 @@
+<div *ngIf="flag">
+  <div *ngIf="role!=='guest'">
+
+    <a [routerLink]="['/userPersonal', id]">
+      Update your profile</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <a [routerLink]="" (click)="getUserHistory()"> See your History</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <a [routerLink]="" (click)="cancelTicket()">
+      Cancel Tickets</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <a [routerLink]="" (click)="logout()">logout
+    </a>
+
+  </div>
+  <br>
+  <br>
+  <div class="container">
+    <div class="card card-container">
+      <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120"
+        alt="" />
+      <!--             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+    -->
+      <p id="profile-name" class="profile-name-card"></p>
+      <h2>Schedule Movie</h2>
+
+
+      <form [formGroup]="searchForm">
+        <mat-form-field>
+          <mat-select placeholder="City" #selectCity (change)="getTheatres(selectCity.value)" formControlName="city">
+            <mat-option *ngFor="let city of cities" [value]="city.cityId">
+              {{city.cityName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        &nbsp;&nbsp;&nbsp;
+
+        <mat-form-field>
+          <mat-select placeholder="Theatre" #selectTheatre (change)="getMovies(selectTheatre.value)" formControlName="theatre">
+            <mat-option *ngFor="let theatre of theatres" [value]="theatre.theatreId">
+              {{theatre.theatreName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error *ngIf="searchForm.controls['theatre'].hasError('minlength')">
+          <h6>Minimum length 2 characters.</h6>
+        </mat-error>
+        &nbsp;&nbsp;&nbsp;
+
+        <mat-form-field>
+          <mat-select placeholder="Movie" #selectMovie (change)="getShowTime(selectMovie.value)" formControlName="movie">
+            <mat-option *ngFor="let movie of movies" [value]="movie.movieId">
+              {{movie.movieName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error *ngIf="searchForm.controls['movie'].hasError('minlength')">
+          <h6>Minimum length 2 characters.</h6>
+        </mat-error>
+        &nbsp;&nbsp;&nbsp;
+
+        <mat-form-field>
+          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Date" (dateInput)="addEvent('input', $event)"
+            (dateChange)="addEvent('change', $event)" formControlName="date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        &nbsp;&nbsp;&nbsp;
+
+        <mat-form-field>
+          <mat-select placeholder="Time" #selectTime (change)="readyToWidget(selectTime.value)" formControlName="time">
+            <mat-option *ngFor="let time of times" [value]="time">
+              {{time}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        &nbsp;&nbsp;&nbsp;
+
+        <button mat-raised-button class="mat-primary full-width mb-1" (click)="goToWidget()" [disabled]="searchForm.invalid">Submit</button>
+
+        <!--<button mat-raised-button class="mat-primary full-width mb-1" (click)="goToWidget()" [disabled]="flag2">Submit</button>-->
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<!-- User History -->
+
+<div *ngIf="!flag">
+  <h2 *ngIf="!cancel">Booking History</h2>
+  <h2 *ngIf="cancel">Cancel Tickets</h2>
+  <div class="example-container mat-elevation-z8">
+    <div class="example-header">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="city name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sbCityName}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="theatre name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Theatre </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sbTheatreName}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="movie name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Movie </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sbMovieName}} </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="action" *ngIf="!cancel">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.sbStatus}}
+        </mat-cell>
+      </ng-container>
+
+
+      <!-- for cancel ticket-->
+      <ng-container matColumnDef="action" *ngIf="cancel">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <!-- <a [routerLink]="" (click)="goToCancelTickets(element.seatBookingId,element)">-->
+          <button mat-raised-button class="mat-primary full-width mb-1" (click)="goToCancelTickets(element.seatBookingId,element)">
+          Cancel Booking</button>
+         <!-- Cancel Booking
+          <!-- </a>-->
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Date </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sbDate}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="showtime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Show Time </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sbShowTime}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="seat name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Seat Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.seatName}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+    </mat-paginator>
+
+  </div>
+  <button mat-raised-button class="mat-primary full-width mb-1" (click)="previousPage()">previous</button>
+</div>

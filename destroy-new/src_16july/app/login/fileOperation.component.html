@@ -1,0 +1,31 @@
+<div>
+    <a [routerLink]="" (click)="logout()">
+        logout</a>
+</div>
+
+<br>
+<div class="container">
+    <div class="card card-container">
+        <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120"
+            alt="" />
+        <!--             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+    -->
+        <p id="profile-name" class="profile-name-card"></p>
+
+        <div class="form-signin">
+            <mat-radio-group class="example-radio-group" (change)="selectOperation()" [(ngModel)]="yourOperation">
+                <mat-radio-button class="example-radio-button" *ngFor="let fileOperation of fileOperations" [value]="fileOperation.value">
+                    <h4>{{fileOperation.viewValue}}</h4>
+                </mat-radio-button>
+            </mat-radio-group>
+
+
+
+            <h4>
+                <input type="file" (change)="updateFile(file)" accept="image/*" #file>
+            </h4>
+            <button mat-raised-button style="float: right;margin-top: 98px;" class="btn   btn-signin" type="submit" (click)="getFile()">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button mat-raised-button style="margin-top: 60px;" class="btn   btn-signin" type="submit" (click)="goBack()">go back</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,176 @@
+<div>
+    <a [routerLink]="" (click)="logout()">
+        logout</a>
+</div>
+<br>
+<br>
+<div class="container">
+    <div class="card card-container">
+        <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120"
+            alt="" />
+        <!--             <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+    -->
+        <p id="profile-name" class="profile-name-card"></p>
+
+
+        <button mat-raised-button style="margin-top:65px;" class="btn   btn-signin" (click)="activeValue('c')">City Operations</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-raised-button class="btn   btn-signin" (click)="activeValue('t')">Theatre Opeartions</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-raised-button style="float: left;margin-top: 40px;" class="btn   btn-signin" (click)="activeValue('m')">Movie Operations</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-raised-button style="margin-top: 40px;left: 58px;width: 240px;" class="btn   btn-signin" (click)="fileOperations()">Movie Operations through File</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-raised-button style="float: right;margin-top: -110px;left: -20px;" class="btn   btn-signin" (click)="downloadPDF()">Download PDF</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-raised-button style="float: right;margin-top: -300px;left: -20px;" class="btn   btn-signin" (click)="cityTheatreFlagChange()">City Theatre Mapping</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-raised-button style="float: right;margin-top: -200px;left: -20px;" class="btn   btn-signin" (click)="movieTheatreFlagChange()">Movie Theatre Mapping</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button mat-raised-button style="float: right;margin-top: -400px;left: -20px;" class="btn   btn-signin" (click)="timeFlagChange()">Add Time</button>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        <br>
+        <br>
+        <div *ngIf="activeFlag" class="form-signin">
+            <a [routerLink]="" (click)="insertFormData() ">
+                <h3 style="margin-top: 96px;">add {{value}}</h3>
+            </a> &nbsp;&nbsp;&nbsp;
+            <a [routerLink]="" (click)="deleteFormData()">
+                <h3 style="float: right;margin-top: -37px;margin-right: 10px;">remove {{value}}</h3>
+            </a>
+        </div>
+        <br>
+        <br>
+        <div *ngIf="insertFlag">
+            <form [formGroup]="insertForm" class="form-signin">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{value}}" formControlName="{{value}}Name" (keyup)="disableEmptyFlag()">
+                </mat-form-field>
+                <br>
+                <div *ngIf="value==city">
+                    <mat-error *ngIf="insertForm.controls['cityName'].hasError('required') && insertForm.controls['cityName'].touched">
+                        <h6> Please enter city name.</h6>
+                    </mat-error>
+                </div>
+                <div *ngIf="value==movie">
+                    <mat-error *ngIf="insertForm.controls['movieName'].hasError('required') && insertForm.controls['movieName'].touched">
+                        <h6> Please enter movie name.</h6>
+                    </mat-error>
+                </div>
+                <div *ngIf="value==theatre">
+                    <mat-error *ngIf="insertForm.controls['theatreName'].hasError('required') && insertForm.controls['theatreName'].touched">
+                        <h6> Please enter theatre name.</h6>
+                    </mat-error>
+                </div>
+                <mat-error *ngIf="repeatFlag">
+                    <h6>{{value}} already exists.</h6>
+                </mat-error>
+                <mat-error *ngIf="emptyFlag">
+                    <h6>please don't give empty value</h6>
+                </mat-error>
+                <button mat-raised-button class="mat-primary full-width mb-1" (click)="insertData()" [disabled]="value==''">Submit</button>
+            </form>
+        </div>
+
+        <div *ngIf="deleteFlag">
+            <form [formGroup]="deleteForm" class="form-signin">
+                <mat-form-field>
+                    <mat-select placeholder="Select {{value}}" formControlName="{{value}}Name">
+                        <div *ngIf="value == 'city'">
+                            <mat-option *ngFor="let city of cityArray" [value]="city.cityName">
+                                {{city.cityName}}
+                            </mat-option>
+                        </div>
+                        <div *ngIf="value == 'theatre'">
+                            <mat-option *ngFor="let theatre of theatreArray" [value]="theatre.theatreName">
+                                {{theatre.theatreName}}
+                            </mat-option>
+                        </div>
+                        <div *ngIf="value == 'movie'">
+                            <mat-option *ngFor="let movie of movieArray" [value]="movie.movieName">
+                                {{movie.movieName}}
+                            </mat-option>
+                        </div>
+
+                    </mat-select>
+                </mat-form-field>
+                <br>
+                <button mat-raised-button class="mat-primary full-width mb-1" (click)="deleteData()" [disabled]="deleteForm.invalid">Submit</button>
+            </form>
+        </div>
+
+        <div *ngIf="cityTheatreFlag">
+            <form [formGroup]="cityTheatreForm" class="form-signin">
+                <mat-form-field>
+                    <mat-select placeholder="City" #selectCity (change)="getCityId(selectCity.value)" formControlName="cityName">
+                        <mat-option *ngFor="let city of cities" [value]="city.cityId">
+                            {{city.cityName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+
+                <mat-form-field>
+                    <mat-select placeholder="Theatre" #selectTheatre (change)="getTheatreId(selectTheatre.value)" formControlName="theatreName">
+                        <mat-option *ngFor="let theatre of theatres" [value]="theatre.theatreId">
+                            {{theatre.theatreName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-raised-button class="mat-primary full-width mb-1" (click)="insertCityTheatreData()" [disabled]="cityTheatreForm.invalid">Submit</button>
+            </form>
+        </div>
+
+        <div *ngIf="movieTheatreFlag">
+            <form [formGroup]="movieTheatreForm" class="form-signin">
+                <mat-form-field>
+                    <mat-select placeholder="Movie" #selectMovie (change)="getMovieId(selectMovie.value)" formControlName="movieName">
+                        <mat-option *ngFor="let movie of movies" [value]="movie.movieId">
+                            {{movie.movieName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+
+                <mat-form-field>
+                    <mat-select placeholder="Theatre" #selectTheatre (change)="getTheatreId(selectTheatre.value)" formControlName="theatreName">
+                        <mat-option *ngFor="let theatre of theatres" [value]="theatre.theatreId">
+                            {{theatre.theatreName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+
+                <mat-form-field>
+                    <mat-select placeholder="Time" #selectTime (change)="getShowtimeId(selectTime.value)" formControlName="showtime">
+                        <mat-option *ngFor="let showtime of showtimes" [value]="showtime.showTimeId">
+                            {{showtime.showTimeValue|date: format}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br>
+
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="discount" formControlName="discount" #discount>
+                </mat-form-field>
+                <br>
+
+                <button mat-raised-button class="mat-primary full-width mb-1" (click)="insertMovieTheatreData(discount.value)" [disabled]="movieTheatreForm.invalid">Submit</button>
+            </form>
+        </div>
+        <div *ngIf="timeFlag">
+            <form [formGroup]="timeForm" class="form-signin">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="time" formControlName="time" #time (keyup)="disableWrongDateFlag()">
+                    <mat-hint align="end">format HH:mm:ss</mat-hint>
+                </mat-form-field>
+                <mat-error *ngIf="wrongDateFlag">
+                    <h6>give valid format of time</h6>
+                </mat-error>
+                <mat-error *ngIf="timeExistsFlag">
+                    <h6>showtime exists</h6>
+                </mat-error>
+                <br>
+
+                <button mat-raised-button class="mat-primary full-width mb-1" (click)="insertTime(time.value)" [disabled]="timeForm.invalid">Submit</button>
+            </form>
+        </div>
+
+
+    </div>
+
+</div>
